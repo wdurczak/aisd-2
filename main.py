@@ -13,7 +13,10 @@ def print_menu():
     print("6. Wypisz in-order i pre-order (AVL i BST)")
     print("7. Usuń wszystkie elementy post-order (AVL i BST)")
     print("8. Równoważ BST (algorytm DSW)")
-    print("10. Eksport do Graphviz (PDF)")
+    print("10. Wizualizacja")
+
+def print_green(text):
+    print(f"\033[92m{text}\033[0m")
 
 def main():
     avl = AVLTree()
@@ -30,20 +33,20 @@ def main():
             try:
                 data = list(map(int, input("Podaj liczby oddzielone spacją: ").split()))
                 if len(data) > 10:
-                    print("Podano zbyt wiele liczb.")
+                    print("\033[91mPodano zbyt wiele liczb.\033[0m")
                     data = []
             except:
-                print("Sprawdź poprawność wprowadzonych danych")
+                print("\033[91mSprawdź poprawność wprowadzonych danych\033[0m")
         elif choice == '2':
             try:
                 n = int(input("Ile liczb wygenerować? "))
                 data = generate_sorted_data(n)
-                print("Wygenerowano:", data)
+                print_green(f"Wygenerowano: {data}")
             except:
-                print("Nieprawidłowe n.")
+                print("\033[91mNieprawidłowe n.\033[0m")
         elif choice == '3':
             avl_root, t = measure_time(avl.insert_balanced, data)
-            print(f"AVL utworzone, wysokość: {avl.max_depth(avl_root)}, czas: {t:.6f}s")
+            print_green(f"AVL utworzone, wysokość: {avl.max_depth(avl_root)}, czas: {t:.6f}s")
         elif choice == '4':
             import time
             bst_root = None
@@ -51,25 +54,25 @@ def main():
             for d in data:
                 bst_root = bst.insert(bst_root, d)
             t = time.perf_counter() - start
-            print(f"BST utworzone, wysokość: {bst.max_depth(bst_root)}, czas: {t:.6f}s")
+            print_green(f"BST utworzone, wysokość: {bst.max_depth(bst_root)}, czas: {t:.6f}s")
         elif choice == '5':
-            print("AVL min path:", avl.find_min_path(avl_root))
-            print("AVL max path:", avl.find_max_path(avl_root))
-            print("BST min path:", bst.find_min_path(bst_root))
-            print("BST max path:", bst.find_max_path(bst_root))
+            print_green(f"AVL min path: {avl.find_min_path(avl_root)}")
+            print_green(f"AVL max path: {avl.find_max_path(avl_root)}")
+            print_green(f"BST min path: {bst.find_min_path(bst_root)}")
+            print_green(f"BST max path: {bst.find_max_path(bst_root)}")
         elif choice == '6':
-            print("AVL in-order:", avl.in_order(avl_root))
-            print("AVL pre-order:", avl.pre_order(avl_root))
-            print("BST in-order:", bst.in_order(bst_root))
-            print("BST pre-order:", bst.pre_order(bst_root))
+            print_green(f"AVL in-order: {avl.in_order(avl_root)}")
+            print_green(f"AVL pre-order: {avl.pre_order(avl_root)}")
+            print_green(f"BST in-order: {bst.in_order(bst_root)}")
+            print_green(f"BST pre-order: {bst.pre_order(bst_root)}")
         elif choice == '7':
-            print("AVL usunięto:", avl.post_order_delete(avl_root))
-            print("BST usunięto:", bst.post_order_delete(bst_root))
+            print_green(f"AVL usunięto: {avl.post_order_delete(avl_root)}")
+            print_green(f"BST usunięto: {bst.post_order_delete(bst_root)}")
             avl_root = None
             bst_root = None
         elif choice == '8':
             bst_root = bst.dsw_balance(bst_root)
-            print("BST zrównoważone.")
+            print_green("BST zrównoważone.")
         elif choice == '10':
             if avl_root:
                 dot = export_tree_to_graphviz(avl_root, tree_type="AVL")
@@ -78,10 +81,10 @@ def main():
                 dot = export_tree_to_graphviz(bst_root, tree_type="BST")
                 dot.render('BST_Tree', view=True)
         elif choice == '11':
-            print("Zamykanie programu.")
+            print_green("Zamykanie programu.")
             break
         else:
-            print("Nieznana opcja.")
+            print("\033[91mNieznana opcja.\033[0m")
 
 if __name__ == "__main__":
     main()
